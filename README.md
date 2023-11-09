@@ -5,7 +5,7 @@ This webapp was developed as part of [Tech Skills Showcase Competition](https://
 
 
 
-The app calculate carbon footprint of an user's car based on car make, model and milege driven.
+The app calculate carbon footprint of an user's car based on car make, model and mileage driven.
 
 
 
