@@ -4,6 +4,6 @@ const { calculateFootPrint } = require('../controllers/footprint');
 
 const router = express.Router();
 
-router.route('/footprint').get(calculateFootPrint)
+router.route('/footprint').post(calculateFootPrint)
 
 module.exports = router;

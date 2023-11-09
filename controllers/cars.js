@@ -5,12 +5,11 @@ const axios = require('axios');
 // @access  Public
 const getCarsMake = async (req, res, next) => {
   try {
-    const token = '7lLXrfmRwlBG71wguZraA'
     const config = {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${process.env.TOKEN}` }
   };
   
-    const response = await axios.get('https://www.carboninterface.com/api/v1/vehicle_makes',config);
+    const response = await axios.get(`${APIURL}/vehicle_makes`,config);
     res.status(200).json(response.data)
     //res.status(200).json(response.data) //res.status(200).json({success:true, response:response.data})
   } catch (error) {
@@ -24,16 +23,19 @@ const getCarsMake = async (req, res, next) => {
 // @access  Public
 const getCarsModel = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    console.log(id)
-    const token = '7lLXrfmRwlBG71wguZraA'
     const config = {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${process.env.TOKEN}` }
   };
   
-    const response = await axios.get(`https://www.carboninterface.com/api/v1/vehicle_makes/${id}/vehicle_models`,config);
-    res.status(200).json(response.data)
-    //res.status(200).json(response.data) //res.status(200).json({success:true, response:response.data})
+    const response = await axios.get(`${APIURL}/vehicle_makes/${req.params.id}/vehicle_models`,config);
+    const finalArr = []
+    let firstObj = []
+    response.data.find(function (element, indx, theArr){
+      const found = firstObj.some(el => el.name === element.data.attributes.name && el.year === element.data.attributes.year);
+      if (!found)  finalArr.push(element)
+      firstObj.push({name: element.data.attributes.name, year:element.data.attributes.year });
+    })
+    res.status(200).json(finalArr)
   } catch (error) {
     next(error)
   }

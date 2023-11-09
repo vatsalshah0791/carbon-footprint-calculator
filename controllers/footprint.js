@@ -5,9 +5,8 @@ const axios = require('axios');
 // @access  Public
 const calculateFootPrint = async (req, res, next) => {
   try {
-    const token = '7lLXrfmRwlBG71wguZraA'
     const config = {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${process.env.TOKEN}` }
   };
 
   const data = {
@@ -16,11 +15,11 @@ const calculateFootPrint = async (req, res, next) => {
     "distance_value": req.body.distance_value,
     "vehicle_model_id": req.body.vehicle_model_id
   };
-  console.log(data)
-  const response = await axios.post('https://www.carboninterface.com/api/v1/estimates', data, config)
+
+  const response = await axios.post(`${APIURL}/estimates`, data, config)
   res.status(200).json(response.data)
-    //res.status(200).json(response.data) //res.status(200).json({success:true, response:response.data})
-  } catch (error) {
+  
+} catch (error) {
     next(error)
   }
  
